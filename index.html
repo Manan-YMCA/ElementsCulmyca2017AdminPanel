@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Elements Culmyca</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta content="himani kansal" name="author">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+  <script type="text/javascript">
+  function ok()
+  {
+  
+ // alert("xs");
+var username= $("#username").val();
+var password = $("#password").val();
+
+//var dataString = 'username='+username+'&password='+password;
+//if(username=='' && password=='')
+//{
+//alert("Please select at least one option");
+//}
+//else
+{ $.ajax({
+
+            type: "POST",
+            crossDomain: true,
+            dataType: 'json',
+            url: "https://elementsculmyca2017.herokuapp.com/api/v1/getAccessToken",
+            data: {username:username,password:password}
+    //success: function() { alert("Success"); },
+    //error: function() { alert('Failed!'); }
+
+        }).done(function(data){
+            var obj=JSON.stringify(data);
+          
+         // alert(obj.GetAllResult.token);
+        
+          if(obj[2]=="m")
+          {
+            alert("Invalid User name and password");
+          }
+          else if(obj[2]=="t")
+          { 
+            for(var i=15;;i++)
+            {
+              if(obj[i]==",")
+                break;
+            }
+            var tokenvalue=obj.substring(10,i-1);
+            //alert(tokenvalue);
+             var l=obj.length;
+             //console.log("cddc");
+            var clubname=obj.substring(i+15,l-2);
+            //var clubname=obj.substring();
+          //alert(clubname);
+           //store in local storage
+           localStorage.setItem("token",tokenvalue);
+           localStorage.setItem("clubname",clubname); 
+           if(clubname=="brix")
+            window.location="http://localhost/elements_culmyca/brixhome.html";
+          else
+          window.location="http://localhost/elements_culmyca/home.html";
+          // Retrieve 
+          //alert(localStorage.getItem("token")); 
+          }
+          
+
+          console.log(data);
+        })
+}
+
+
+}
+
+</script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+<!-- Content Wrapper. Contains page content -->
+  <div class="">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1 style="text-align:center;">
+      Admin Login
+        <small></small>
+      </h1><br />
+     
+    </section>
+ <!-- Main content -->
+    <section class="content">
+      <div class="row">
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+     
+                
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" class="form-control" placeholder="Username" name="username" id="username">
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" class="form-control" placeholder="Password" name="password" id="password">
+                </div>        
+     <br />   
+            
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary"  id="submit" onclick="ok()">Submit</button>
+              </div>
+
+
+
+        </div>
+        <!-- /.col-->
+      </div>
+      <!-- ./row -->
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+
+   <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+     
+    </div>
+    <strong>Copyright &copy; 2017 <a href="http://elementsculmyca.com">Elements Culmyca</a>.</strong> All rights
+    reserved.
+  </footer>
+  <div class="control-sidebar-bg"></div>
+</div>
+
+
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.6 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script src="dist/js/app.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+</body>
+</html>
+
