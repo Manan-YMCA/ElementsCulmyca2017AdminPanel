@@ -16,9 +16,16 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+  <style type="text/css">
+  td,th{
+    border: 1px solid black;
+  }
+  </style>
+
   <script type="text/javascript">
   var obj;
   window.onload=function(){
+     $("#wait").css("display","block");
    // alert("xs");
   if(localStorage.getItem("token") && localStorage.getItem("clubname")!='brix')  
   {
@@ -36,6 +43,7 @@
     //error: function() { alert('Failed!'); }
 
         }).done(function(data){
+           $("#wait").css("display","none");
           obj=JSON.parse(JSON.stringify(data));
           var eventn="";
           for(var i=0; i<obj.length; i++)
@@ -53,17 +61,17 @@
   }
   else
   {
-    window.location="http://localhost/elements_culmyca/"
+    window.location="index.html";
   }
-  //alert(localStorage.getItem("token"));  
+
   }
 
     function ok()
   {
-  //alert("ok");
+
+   $("#wait").css("display","block");
 var eventlistname= $("#eventlist").val();
 
-//alert(eventlistname);
  for(var i=0; i<obj.length; i++)
           {
               if(obj[i].eventName===eventlistname)
@@ -73,8 +81,6 @@ var eventlistname= $("#eventlist").val();
               }
           }
 
-  //        alert(eventid);
-//alert(eventlistname);
 { $.ajax({
 
             type: "GET",
@@ -82,28 +88,22 @@ var eventlistname= $("#eventlist").val();
             dataType: 'json',
             url: "https://elementsculmyca2017.herokuapp.com/api/v1/registrations/"+localStorage.getItem('clubname')+"/"+eventid+"/"+
             localStorage.getItem('token')
-            //data: {username:username,password:password}
-   // success: function() { alert("Success"); }
-    //error: function() { alert('Failed!'); }
-
+        
         }).done(function(data){
-          //console.log(url)
+         $("#wait").css("display","none");
           console.log(data);
             var registrations=JSON.parse(JSON.stringify(data));
-           // alert(registrations.length);
-            //alert(registrations[1].email);
-          var reg="<div class='box-body table-responsive no-padding'><table class='table table-hover'><tr><th>SNo.</th><th>Phone No.</th><th>Email</th><th>Fullname</th><th>College</th><th>paymenttxnid</th><th>paymentphoneno</th><th>arrived</th><th>qrcode</th><th>timestamp</th><th>paymentstatus</th></tr>";
+           var reg="<h3>Showing Total Registrations for event:-"+eventlistname+"</h3>";
+          reg+="<div class='box-body table-responsive no-padding' style='border:1px solid black'><table  class='table table-hover'><tr><th>SNo.</th><th>Phone No.</th><th>Email</th><th>Fullname</th><th>College</th><th>paymenttxnid</th><th>paymentphoneno</th><th>arrived</th><th>qrcode</th><th>timestamp</th><th>paymentstatus</th></tr>";
           for(var i=0; i<registrations.length; i++)
           {
                reg+='<tr><td>'+(i+1)+'</td><td>'+registrations[i].phoneno+'</td><td>'+registrations[i].email+'</td><td>'+registrations[i].fullname+'</td><td>'+registrations[i].college+'</td><td>'+registrations[i].paymenttxnid+'</td><td>'+registrations[i].paymentphoneno+'</td><td>'+registrations[i].arrived+'</td><td>'+registrations[i].qrcode+'</td><td>'+registrations[i].timestamp+'</td><td>'+registrations[i].paymentstatus+'</td></tr>';
-             //alert(reg);
-            //document.getElementById("eventlist").innerHTML=obj[i].eventName;
-            //alert(obj[i].eventName);
+            
           }   
           reg+="</table></div>";
           document.getElementById("reg").innerHTML=reg;      
 
-          //console.log(data);
+         
         })
 }
 
@@ -136,7 +136,7 @@ var eventlistname= $("#eventlist").val();
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.png" class="user-image" alt="User Image">
-              <span class="hidden-xs">Elements Culmyca</span>
+              <span class="hidden-xs">Elements Culmyca'17</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -144,14 +144,31 @@ var eventlistname= $("#eventlist").val();
                 <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
 
                 <p>
-                  Elements Culmyca
+                  Elements Culmyca'17
                   <small></small>
                 </p>
               </li>
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="logout.html" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="logout.html" class="btn btn-danger btn-flat">Sign out</a>
                 </div>
+              </li>
+            </ul>
+          </li>
+
+           <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="hidden-xs">Developers</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="himani.jpg" class="img-circle" alt="User Image">
+                <img src="vipin.jpg" class="img-circle" alt="User Image">
+                <p>
+                Himani Kansal | Vipin Khushu
+                  <small></small>
+                </p>
               </li>
             </ul>
           </li>
@@ -170,7 +187,7 @@ var eventlistname= $("#eventlist").val();
           <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Element Culmyca</p>
+          <p>Element Culmyca'17</p>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -188,10 +205,6 @@ var eventlistname= $("#eventlist").val();
           </ul>
         </li>
         
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -202,17 +215,17 @@ var eventlistname= $("#eventlist").val();
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+        Registrations Check
+        <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li class="active">Registrations Check</li>
       </ol>
     </section>
 
     <!-- Main content -->
-    <section class="content">
+      <section class="content" style="min-height:160px;">
           
               <div class="row">
                  <div class="col-md-12">
@@ -226,7 +239,7 @@ var eventlistname= $("#eventlist").val();
                
                 <button type="submit" class="btn btn-primary"  id="submit" onclick="ok()">Check Registrations</button>
               
-                        
+                 <div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;top:30%;left:50%;padding:2px;"><img src='loaderimage.gif' width="64" height="64" /><br>Loading..</div>        
             
     
       
@@ -247,7 +260,7 @@ var eventlistname= $("#eventlist").val();
     <div class="pull-right hidden-xs">
       
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://elementsculmyca.com">Elements Culmyca</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 <a href="http://manan.tech/index.html">Manan</a>.</strong> All rights
     reserved.
   </footer>
   <div class="control-sidebar-bg"></div>

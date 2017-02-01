@@ -18,26 +18,11 @@
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css"> 
   
   <script type="text/javascript">
-  function removeDuplicates(num) {
-  var x,
-      len=num.length,
-      out=[],
-      obj={};
- 
-  for(x=0;x<len;x++) {
-    obj[num[x]]=0;
-  }
-  for (x in obj) {
-    out.push(x);
-  }
-  return out;
-}
+  
   var obj;
   window.onload=function(){
     $("#updateform").hide();
-     $("#eventl").hide();
-   $("#submit").hide();
-   // alert("xs");
+
   if(localStorage.getItem("token") && localStorage.getItem("clubname"))  
   {
     document.getElementById("clubname").innerHTML=localStorage.getItem("clubname");
@@ -47,102 +32,46 @@
   }
   else
   {
-    window.location="http://localhost/elements_culmyca/"
+    window.location="index.html";
   }
   //alert(localStorage.getItem("token"));  
   }
 
     function ok()
-  {//$(document).getElementById("#reg").innerHTML=""; 
-  //alert("ok");
-var eventlistname= $("#eventlist").val();
-//alert(eventlistname);
- for(var i=0; i<obj.length; i++)
-          {
-              if(obj[i].eventName===eventlistname)
-              {
-                var eventid=obj[i]._id;
-                var description=obj[i].description;
-                var rules=obj[i].rules;
-                var venue=obj[i].venue;
-                var fee=obj[i].fee;
-                var st=obj[i].startTime;
-                var et=obj[i].endTime;
-                break;
-              }
-          }
-          $("#updateform").show();
-          document.getElementById("eventid").setAttribute('value',eventid);
-           document.getElementById("eventname").setAttribute('value',eventlistname);
-           document.getElementById("description").innerHTML=description;
-           document.getElementById("rules").innerHTML=rules;
-           document.getElementById("venue").setAttribute('value',venue);
-           document.getElementById("st").setAttribute('value',st);
-           document.getElementById("et").setAttribute('value',et);
-         
-
-
-}
-
-function getevents()
   {
-  
-var clubname= $("#clubnamef").val();
- $.ajax({
-
-            type: "GET",
-            crossDomain: true,
-            dataType: 'json',
-            url: "https://elementsculmyca2017.herokuapp.com/api/v1/eventlist/"+clubname
-    //success: function() { alert("Success"); },
-    //error: function() { alert('Failed!'); }
-
-        }).done(function(data){
-          obj=JSON.parse(JSON.stringify(data));
-          var eventn="";
-          for(var i=0; i<obj.length; i++)
-          {
-               eventn+='<option>' + obj[i].eventName+ '</option>';
-             
-            //document.getElementById("eventlist").innerHTML=obj[i].eventName;
-            //alert(obj[i].eventName);
-          }
-          $("#eventl").show();
-          $("#submit").show();
-           document.getElementById("eventlist").innerHTML=eventn;   
 
 
-          //console.log(data);
-        })
-  
+          $("#updateform").show();
+        
+
 }
 
-function updateinfo()
-{var eventid= $("#eventid").val();
-//alert(eventid);
-var description = $("#description").val();
-//alert(description);
-var rules=$("#rules").val();
-//alert(rules);
-var venue = $("#venue").val();
-var startTime= $("#st").val();
 
+function create()
+{
+$("#wait").css("display","block");
+  var eventname= $("#eventname").val();
+var category= $("#category").val();
+var description = $("#description").val();
+var rules=$("#rules").val();
+var venue = $("#venue").val();
+var fee= $("#fee").val();
+var startTime= $("#st").val();
 var endTime= $("#et").val();
-//alert(endTime);
 var clubname=$("#clubnamef").val();
-alert(clubname);
 
  $.ajax({
 
             type: "POST",
             crossDomain: true,
             dataType: 'json',
-            url: "http://192.168.43.134:5000/api/v1/eventUpdate/"+localStorage.getItem('token'),
-            data: {clubname:clubname,eventid:eventid,description:description,rules:rules,venue:venue,st:startTime,et:endTime},
+            url: "https://elementsculmyca2017.herokuapp.com/api/v1/eventRegister/"+localStorage.getItem('token'),
+            data: {club:clubname,eventName:eventname,category:category,description:description,rules:rules,venue:venue,fee:fee,startTime:startTime,endTime:endTime},
     success: function() { alert("Your data is updated correctly"); },
     error: function() { alert('Failed! Please Try Again'); }
 
         }).done(function(data){
+          $("#wait").css("display","none");
             
             $("#updateform").hide();
         })
@@ -180,7 +109,7 @@ function cancel()
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.png" class="user-image" alt="User Image">
-              <span class="hidden-xs">Elements Culmyca</span>
+              <span class="hidden-xs">Elements Culmyca'17</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -188,14 +117,30 @@ function cancel()
                 <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
 
                 <p>
-                  Elements Culmyca
+                  Elements Culmyca'17
                   <small></small>
                 </p>
               </li>
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="logout.html" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="logout.html" class="btn btn-danger btn-flat">Sign out</a>
                 </div>
+              </li>
+            </ul>
+          </li>
+           <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="hidden-xs">Developers</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="himani.jpg" class="img-circle" alt="User Image">
+                <img src="vipin.jpg" class="img-circle" alt="User Image">
+                <p>
+                Himani Kansal | Vipin Khushu
+                  <small></small>
+                </p>
               </li>
             </ul>
           </li>
@@ -214,7 +159,7 @@ function cancel()
           <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Element Culmyca</p>
+          <p>Element Culmyca'17</p>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -229,16 +174,12 @@ function cancel()
           </a>
           <ul class="treeview-menu">
             <li><a href="brixhome.html"><i class="fa fa-circle-o"></i>Payment Approval</a></li>
-            <li class="active"><a href="#"><i class="fa fa-circle-o"></i>Event Info Update</a></li>
-            <li><a href="newevent.html"><i class="fa fa-circle-o"></i>New Event Create</a></li>
+            <li><a href="eventinfoupdate.html"><i class="fa fa-circle-o"></i>Update Event Info</a></li>
+            <li class="active"><a href="#"><i class="fa fa-circle-o"></i>Create New Event</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i>Main Summary</a></li>
           </ul>
         </li>
         
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -249,22 +190,37 @@ function cancel()
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+        Create New Event
+        
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li class="active">Create New Event</li>
       </ol>
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="min-height:160px;">
               <div class="row">
                  <div class="col-md-12">
                  <div class="form-group">
                   <label>Select Club Name</label>
                   <select class="form-control" name="clubnamef" id="clubnamef">
+                  
+                  <option>ananya</option>
+                  <option>jhalak</option>
+                  <option>nataraj</option>
+                  <option>srijan</option>
+                  <option>taranum</option>
+                  <option>vividha</option>
+                  <option>manan</option>
+                  <option>mechnext</option>
+                  <option>microbird</option>
+                  <option>samarpan</option>
+                  <option>ieee</option>
+                  <option>vivekanand</option>
+                  <option>eklavya</option>
+                  <option>sae</option>
                   </select>
                 </div>
                 </div><br /><br />
@@ -282,13 +238,18 @@ function cancel()
         <div class="row">
       <div class="col-md-2"></div>
         <div class="col-md-8">
-            <div class="form-group">
-                  
-                  <input type="hidden" class="form-control" placeholder="Event ID" name="eventid" id="eventid">
-                </div>
+          <div class="callout callout-info">
+          <p>Enter the values in fields to create new event and press the submit button.</p>
+          <p>To cancel the changes, press the cancel button.</p>
+        </div>
+            
                 <div class="form-group">
                   <label>Event Name</label>
-                  <input type="text" class="form-control" placeholder="Event Name" name="eventname" id="eventname" readonly>
+                  <input type="text" class="form-control" placeholder="Event Name" name="eventname" id="eventname">
+                </div>
+                <div class="form-group">
+                  <label>Category</label>
+                  <input type="text" class="form-control" placeholder="Category" name="category" id="category">
                 </div>
                 <label>Event Description</label>
                <div class="form-group">
@@ -303,6 +264,10 @@ function cancel()
                   <input type="text" class="form-control" placeholder="Venue" name="venue" id="venue">
                 </div>
                 <div class="form-group">
+                  <label>Fee</label>
+                  <input type="text" class="form-control" placeholder="Fee" name="fee" id="fee">
+                </div>
+                <div class="form-group">
                   <label>Start Time</label>
                   <input type="text" class="form-control" placeholder="Start Time" name="st" id="st">
                 </div> 
@@ -313,7 +278,7 @@ function cancel()
               <br />   
             
              
-                <button type="submit" class="btn btn-primary"  id="submit" onclick="updateinfo()">Submit</button>
+                <button type="submit" class="btn btn-primary"  id="submit" onclick="create()">Submit</button>
               
                 <button class="btn btn-primary"  id="cancel" onclick="cancel()">Cancel</button>
               
@@ -336,7 +301,7 @@ function cancel()
     <div class="pull-right hidden-xs">
       
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://elementsculmyca.com">Elements Culmyca</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 <a href="http://manan.tech/index.html">Manan</a>.</strong> All rights
     reserved.
   </footer>
   <div class="control-sidebar-bg"></div>
