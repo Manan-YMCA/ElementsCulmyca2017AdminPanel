@@ -16,6 +16,13 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+
+   <style type="text/css">
+  td,th{
+    border: 1px solid black;
+  }
+  </style>
+
   <script type="text/javascript">
   function removeDuplicates(num) {
   var x,
@@ -33,13 +40,12 @@
 }
   var obj;
   window.onload=function(){
-   // alert("xs");
+    $("#wait").css("display","block");
    $("#eventl").hide();
    $("#submit").hide();
   if(localStorage.getItem("token") && localStorage.getItem("clubname")=='brix')  
   {
     document.getElementById("clubname").innerHTML=localStorage.getItem("clubname");
-    //document.getElementById("clubnamef").value=localStorage.getItem("clubname");
 
     $.ajax({
 
@@ -51,6 +57,7 @@
     //error: function() { alert('Failed!'); }
 
         }).done(function(data){
+          $("#wait").css("display","none");
           obj=JSON.parse(JSON.stringify(data));
           var a=[];
           for(var i=0; i<obj.length; i++)
@@ -74,7 +81,7 @@
   }
   else
   {
-    window.location="http://localhost/elements_culmyca/"
+    window.location="index.html";
   }
   //alert(localStorage.getItem("token"));  
   }
@@ -84,7 +91,8 @@
   
 //var clubname= $("#clubnamef").val();
 var eventlistname= $("#eventlist").val();
-//alert(eventlistname);
+$("#wait").css("display","block");
+
  for(var i=0; i<obj.length; i++)
           {
               if(obj[i].eventName===eventlistname)
@@ -93,6 +101,7 @@ var eventlistname= $("#eventlist").val();
                 break;
               }
           }
+
 
           $.ajax({
 
@@ -106,27 +115,37 @@ var eventlistname= $("#eventlist").val();
     //error: function() { alert('Failed!'); }
 
         }).done(function(data){
-          //console.log(data);
+          $("#wait").css("display","none");
+        
             var registrations=JSON.parse(JSON.stringify(data));
-           var reg="<div class='box-body table-responsive no-padding'><table class='table table-hover'><tr><th>SNo.</th><th>Phone No.</th><th>Email</th><th>Fullname</th><th>College</th><th>paymenttxnid</th><th>paymentphoneno</th><th>arrived</th><th>qrcode</th><th>timestamp</th><th>paymentstatus</th><th>Payment</th></tr>";
+            var reg="<h3>Showing Payment Status for event:-"+eventlistname+"</h3>";
+            reg+="<div class='box-body table-responsive no-padding' style='border:1px solid black'><table class='table table-hover'><tr><th>SNo.</th><th>Phone No.</th><th>Email</th><th>Fullname</th><th>College</th><th>paymenttxnid</th><th>paymentphoneno</th><th>arrived</th><th>qrcode</th><th>timestamp</th><th>Payment</th><th>Payment</th></tr>";
           for(var i=0; i<registrations.length; i++)
           {
-               reg+='<tr><td>'+(i+1)+'</td><td>'+registrations[i].phoneno+'</td><td>'+registrations[i].email+'</td><td>'+registrations[i].fullname+'</td><td>'+registrations[i].college+'</td><td>'+registrations[i].paymenttxnid+'</td><td>'+registrations[i].paymentphoneno+'</td><td>'+registrations[i].arrived+'</td><td>'+registrations[i].qrcode+'</td><td>'+registrations[i].timestamp+'</td><td>'+registrations[i].paymentstatus+'</td>';
-                if(registrations[i].paymentstatus==1)
+               reg+='<tr><td>'+(i+1)+'</td><td>'+registrations[i].phoneno+'</td><td>'+registrations[i].email+'</td><td>'+registrations[i].fullname+'</td><td>'+registrations[i].college+'</td><td>'+registrations[i].paymenttxnid+'</td><td>'+registrations[i].paymentphoneno+'</td><td>';
+               if(registrations[i].arrived==0)
+               reg+='No</td>';
+             else if(registrations[i].arrived==1)
+               reg+='Yes</td>';
+             reg+='<td>'+registrations[i].qrcode+'</td><td>'+registrations[i].timestamp+'</td><td>';
+              if(registrations[i].paymentstatus==0)
+             reg+='Not Received</td>';
+              if(registrations[i].paymentstatus==1)
+             reg+='Received</td>';
+                
+                if(registrations[i].paymentstatus==0)
 
                   {reg+='<td><input type="hidden" class="form-control" placeholder="Event ID" name="event" id="event" value="'+registrations[i].eventid+'"><input type="hidden" class="form-control" placeholder="Phone No" name="phone" id="phone" value="'+registrations[i].paymentphoneno+'"><input type="hidden" class="form-control" placeholder="Qr code" name="qr" id="qr" value="'+registrations[i].qrcode+'"><button type="button" class="btn btn-block btn-warning" onclick="approvepayment('+registrations[i].qrcode+','+registrations[i].paymentphoneno+')">Pending</button></td></tr>';
-                 }
-               else if(registrations[i].paymentstatus==0)
+                  }
+               else if(registrations[i].paymentstatus==1)
                   reg+='<td><button type="button" class="btn btn-block btn-success disabled">Success</button></td></tr>';
 
-             //alert(reg);
-            //document.getElementById("eventlist").innerHTML=obj[i].eventName;
-            //alert(obj[i].eventName);
+            
           }   
           reg+="</table></div>";
           document.getElementById("reg").innerHTML=reg;      
 
-          //console.log(data);
+          
         })
 
 
@@ -138,6 +157,7 @@ var eventlistname= $("#eventlist").val();
   {
   
 var clubname= $("#clubnamef").val();
+$("#wait").css("display","block");
  $.ajax({
 
             type: "GET",
@@ -148,30 +168,25 @@ var clubname= $("#clubnamef").val();
     //error: function() { alert('Failed!'); }
 
         }).done(function(data){
+          $("#wait").css("display","none");
           obj=JSON.parse(JSON.stringify(data));
           var eventn="";
           for(var i=0; i<obj.length; i++)
           {
                eventn+='<option>' + obj[i].eventName+ '</option>';
              
-            //document.getElementById("eventlist").innerHTML=obj[i].eventName;
-            //alert(obj[i].eventName);
           }
           $("#eventl").show();
           $("#submit").show();
            document.getElementById("eventlist").innerHTML=eventn;   
 
-
-          //console.log(data);
         })
   
 }
 
 function approvepayment(qrcode,phone,eventid)
-{//alert("q");
- //var eventid= $("#event").val();
+{
  var eventlistname= $("#eventlist").val();
-//alert(eventlistname);
  for(var i=0; i<obj.length; i++)
           {
               if(obj[i].eventName===eventlistname)
@@ -180,11 +195,7 @@ function approvepayment(qrcode,phone,eventid)
                 break;
               }
           }
- //alert(eventid);
-//var phone= $("#phone").val();
-//alert(phone);
-//var qrcode= $("#qr").val();
-//alert(qrcode);
+
   $.ajax({
 
             type: "GET",
@@ -199,7 +210,6 @@ function approvepayment(qrcode,phone,eventid)
         }).done(function(data){
            ok();   
 
-          //console.log(data);
         })
 }
  
@@ -228,7 +238,7 @@ function approvepayment(qrcode,phone,eventid)
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.png" class="user-image" alt="User Image">
-              <span class="hidden-xs">Elements Culmyca</span>
+              <span class="hidden-xs">Elements Culmyca'17</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -236,17 +246,35 @@ function approvepayment(qrcode,phone,eventid)
                 <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
 
                 <p>
-                  Elements Culmyca
+                  Elements Culmyca'17
                   <small></small>
                 </p>
               </li>
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="logout.html" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="logout.html" class="btn btn-danger btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
           </li>
+
+           <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="hidden-xs">Developers</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="himani.jpg" class="img-circle" alt="User Image">
+                <img src="vipin.jpg" class="img-circle" alt="User Image">
+                <p>
+                Himani Kansal | Vipin Khushu
+                  <small></small>
+                </p>
+              </li>
+            </ul>
+          </li>
+          
           
         </ul>
       </div>
@@ -262,7 +290,7 @@ function approvepayment(qrcode,phone,eventid)
           <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Element Culmyca</p>
+          <p>Element Culmyca'17</p>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -277,16 +305,12 @@ function approvepayment(qrcode,phone,eventid)
           </a>
           <ul class="treeview-menu">
             <li class="active"><a href="#"><i class="fa fa-circle-o"></i>Payment Approval</a></li>
-            <li><a href="eventinfoupdate.html"><i class="fa fa-circle-o"></i>Event Info Update</a></li>
-             <li><a href="newevent.html"><i class="fa fa-circle-o"></i>New Event Create</a></li>
+            <li><a href="eventinfoupdate.html"><i class="fa fa-circle-o"></i>Update Event Info</a></li>
+             <li><a href="newevent.html"><i class="fa fa-circle-o"></i>Create New Event</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i>Main Summary</a></li>
           </ul>
         </li>
-        
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+      
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -297,12 +321,12 @@ function approvepayment(qrcode,phone,eventid)
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+        Payment Approval
+        <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li class="active">Payment Approval</li>
       </ol>
     </section>
 
@@ -332,6 +356,7 @@ function approvepayment(qrcode,phone,eventid)
                 <button type="submit" class="btn btn-primary"  id="submit" onclick="ok()">Check Payments</button>
 
         </section>
+        <div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;top:30%;left:50%;padding:2px;"><img src='loaderimage.gif' width="64" height="64" /><br>Loading..</div>
         <section id="reg">
           
 
@@ -348,7 +373,7 @@ function approvepayment(qrcode,phone,eventid)
     <div class="pull-right hidden-xs">
       
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://elementsculmyca.com">Elements Culmyca</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 <a href="http://manan.tech/index.html">Manan</a>.</strong> All rights
     reserved.
   </footer>
   <div class="control-sidebar-bg"></div>

@@ -32,7 +32,7 @@
   }
   else
   {
-    window.location="http://localhost/elements_culmyca/"
+    window.location="index.html";
   }
   //alert(localStorage.getItem("token"));  
   }
@@ -48,6 +48,9 @@
 
 
 function create()
+{
+$("#wait").css("display","block");
+  var eventname= $("#eventname").val();
 {var eventname= $("#eventname").val();
 var category= $("#category").val();
 var description = $("#description").val();
@@ -69,9 +72,11 @@ var clubname=$("#clubnamef").val();
     error: function() { alert('Failed! Please Try Again'); }
 
         }).done(function(data){
+          $("#wait").css("display","none");
             
             $("#updateform").hide();
         })
+}
 }
 function cancel()
 {
@@ -106,7 +111,7 @@ function cancel()
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.png" class="user-image" alt="User Image">
-              <span class="hidden-xs">Elements Culmyca</span>
+              <span class="hidden-xs">Elements Culmyca'17</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -114,14 +119,30 @@ function cancel()
                 <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
 
                 <p>
-                  Elements Culmyca
+                  Elements Culmyca'17
                   <small></small>
                 </p>
               </li>
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="logout.html" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="logout.html" class="btn btn-danger btn-flat">Sign out</a>
                 </div>
+              </li>
+            </ul>
+          </li>
+           <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="hidden-xs">Developers</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="himani.jpg" class="img-circle" alt="User Image">
+                <img src="vipin.jpg" class="img-circle" alt="User Image">
+                <p>
+                Himani Kansal | Vipin Khushu
+                  <small></small>
+                </p>
               </li>
             </ul>
           </li>
@@ -140,7 +161,7 @@ function cancel()
           <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Element Culmyca</p>
+          <p>Element Culmyca'17</p>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -155,16 +176,12 @@ function cancel()
           </a>
           <ul class="treeview-menu">
             <li><a href="brixhome.html"><i class="fa fa-circle-o"></i>Payment Approval</a></li>
-            <li class="active"><a href="#"><i class="fa fa-circle-o"></i>Event Info Update</a></li>
-            <li><a href="newevent.html"><i class="fa fa-circle-o"></i>New Event Create</a></li>
+            <li><a href="eventinfoupdate.html"><i class="fa fa-circle-o"></i>Update Event Info</a></li>
+            <li class="active"><a href="#"><i class="fa fa-circle-o"></i>Create New Event</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i>Main Summary</a></li>
           </ul>
         </li>
         
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -175,17 +192,17 @@ function cancel()
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+        Create New Event
+        
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
+        <li class="active">Create New Event</li>
       </ol>
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="min-height:160px;">
               <div class="row">
                  <div class="col-md-12">
                  <div class="form-group">
@@ -205,7 +222,7 @@ function cancel()
                   <option>ieee</option>
                   <option>vivekanand</option>
                   <option>eklavya</option>
-                  <option></option>
+                  <option>sae</option>
                   </select>
                 </div>
                 </div><br /><br />
@@ -223,6 +240,10 @@ function cancel()
         <div class="row">
       <div class="col-md-2"></div>
         <div class="col-md-8">
+          <div class="callout callout-info">
+          <p>Enter the values in fields to create new event and press the submit button.</p>
+          <p>To cancel the changes, press the cancel button.</p>
+        </div>
             
                 <div class="form-group">
                   <label>Event Name</label>
@@ -249,11 +270,11 @@ function cancel()
                   <input type="text" class="form-control" placeholder="Fee" name="fee" id="fee">
                 </div>
                 <div class="form-group">
-                  <label>Start Time</label>
+                  <label>Start Time (Format is :- dd/mm/yyyy hh:mm AM/PM)</label>
                   <input type="text" class="form-control" placeholder="Start Time" name="st" id="st">
                 </div> 
                  <div class="form-group">
-                  <label>End Time</label>
+                  <label>End Time (Format is :- dd/mm/yyyy hh:mm AM/PM)</label>
                   <input type="text" class="form-control" placeholder="End Time" name="et" id="et">
                 </div>        
               <br />   
@@ -282,7 +303,7 @@ function cancel()
     <div class="pull-right hidden-xs">
       
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://elementsculmyca.com">Elements Culmyca</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 <a href="http://manan.tech/index.html">Manan</a>.</strong> All rights
     reserved.
   </footer>
   <div class="control-sidebar-bg"></div>

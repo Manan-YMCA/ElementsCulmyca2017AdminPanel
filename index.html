@@ -15,23 +15,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
   <script type="text/javascript">
+  window.onload=function(){
+    $(".callout").hide();
+  }
   function ok()
-  {
+  {$(".callout").hide();
   
- // alert("xs");
 var username= $("#username").val();
 var password = $("#password").val();
-
-//var dataString = 'username='+username+'&password='+password;
-//if(username=='' && password=='')
-//{
-//alert("Please select at least one option");
-//}
-//else
+ $("#wait").css("display","block");
 { $.ajax({
 
             type: "POST",
@@ -43,13 +37,13 @@ var password = $("#password").val();
     //error: function() { alert('Failed!'); }
 
         }).done(function(data){
+           $("#wait").css("display","none");
             var obj=JSON.stringify(data);
-          
-         // alert(obj.GetAllResult.token);
         
           if(obj[2]=="m")
           {
-            alert("Invalid User name and password");
+                 $(".callout").show();
+            //alert("Invalid User name and password");
           }
           else if(obj[2]=="t")
           { 
@@ -59,13 +53,9 @@ var password = $("#password").val();
                 break;
             }
             var tokenvalue=obj.substring(10,i-1);
-            //alert(tokenvalue);
              var l=obj.length;
-             //console.log("cddc");
             var clubname=obj.substring(i+15,l-2);
-            //var clubname=obj.substring();
-          //alert(clubname);
-           //store in local storage
+    
            localStorage.setItem("token",tokenvalue);
            localStorage.setItem("clubname",clubname); 
            if(clubname=="brix")
@@ -75,9 +65,7 @@ var password = $("#password").val();
           // Retrieve 
           //alert(localStorage.getItem("token")); 
           }
-          
-
-          console.log(data);
+        
         })
 }
 
@@ -87,18 +75,69 @@ var password = $("#password").val();
 </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+  
+ <header class="main-header">
+    <!-- Logo -->
+    <a class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>A</b>EC</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Admin</b>EC</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
 
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li class="dropdown user user-menu">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              <img src="dist/img/user2-160x160.png" class="user-image" alt="User Image">
+              <span class="hidden-xs">Elements Culmyca'17</span>
+            </a>
+          </li>
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="hidden-xs">Developers</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="himani.jpg" class="img-circle" alt="User Image">
+                <img src="vipin.jpg" class="img-circle" alt="User Image">
+                <p>
+                Himani Kansal | Vipin Khushu
+                  <small></small>
+                </p>
+              </li>
+            </ul>
+          </li>
+          
+        </ul>
+      </div>
+    </nav>
+  </header>
 <!-- Content Wrapper. Contains page content -->
   <div class="">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1 style="text-align:center;">
-      Admin Login
+      Website Management Panel
         <small></small>
       </h1><br />
      
     </section>
+     <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="callout callout-danger">
+          <h4>Warning!</h4>
+
+          <p>INVALID Username and password</p>
+        </div>
+        </div>
+        </div>
  <!-- Main content -->
+ <div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;top:70%;left:50%;padding:2px;"><img src='loaderimage.gif' width="64" height="64" /><br>Loading..</div>
     <section class="content">
       <div class="row">
       <div class="col-md-2"></div>
@@ -135,7 +174,7 @@ var password = $("#password").val();
     <div class="pull-right hidden-xs">
      
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://elementsculmyca.com">Elements Culmyca</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 <a href="http://manan.tech/index.html" target="_new">Manan</a>.</strong> All rights
     reserved.
   </footer>
   <div class="control-sidebar-bg"></div>
@@ -155,8 +194,6 @@ var password = $("#password").val();
 
 
 <script src="dist/js/app.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 </body>
 </html>
