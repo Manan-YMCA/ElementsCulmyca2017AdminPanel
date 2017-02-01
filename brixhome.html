@@ -119,14 +119,24 @@ $("#wait").css("display","block");
         
             var registrations=JSON.parse(JSON.stringify(data));
             var reg="<h3>Showing Payment Status for event:-"+eventlistname+"</h3>";
-            reg+="<div class='box-body table-responsive no-padding' style='border:1px solid black'><table class='table table-hover'><tr><th>SNo.</th><th>Phone No.</th><th>Email</th><th>Fullname</th><th>College</th><th>paymenttxnid</th><th>paymentphoneno</th><th>arrived</th><th>qrcode</th><th>timestamp</th><th>paymentstatus</th><th>Payment</th></tr>";
+            reg+="<div class='box-body table-responsive no-padding' style='border:1px solid black'><table class='table table-hover'><tr><th>SNo.</th><th>Phone No.</th><th>Email</th><th>Fullname</th><th>College</th><th>paymenttxnid</th><th>paymentphoneno</th><th>arrived</th><th>qrcode</th><th>timestamp</th><th>Payment</th><th>Payment</th></tr>";
           for(var i=0; i<registrations.length; i++)
           {
-               reg+='<tr><td>'+(i+1)+'</td><td>'+registrations[i].phoneno+'</td><td>'+registrations[i].email+'</td><td>'+registrations[i].fullname+'</td><td>'+registrations[i].college+'</td><td>'+registrations[i].paymenttxnid+'</td><td>'+registrations[i].paymentphoneno+'</td><td>'+registrations[i].arrived+'</td><td>'+registrations[i].qrcode+'</td><td>'+registrations[i].timestamp+'</td><td>'+registrations[i].paymentstatus+'</td>';
+               reg+='<tr><td>'+(i+1)+'</td><td>'+registrations[i].phoneno+'</td><td>'+registrations[i].email+'</td><td>'+registrations[i].fullname+'</td><td>'+registrations[i].college+'</td><td>'+registrations[i].paymenttxnid+'</td><td>'+registrations[i].paymentphoneno+'</td><td>';
+               if(registrations[i].arrived==0)
+               reg+='No</td>';
+             else if(registrations[i].arrived==1)
+               reg+='Yes</td>';
+             reg+='<td>'+registrations[i].qrcode+'</td><td>'+registrations[i].timestamp+'</td><td>';
+              if(registrations[i].paymentstatus==0)
+             reg+='Not Received</td>';
+              if(registrations[i].paymentstatus==1)
+             reg+='Received</td>';
+                
                 if(registrations[i].paymentstatus==0)
 
                   {reg+='<td><input type="hidden" class="form-control" placeholder="Event ID" name="event" id="event" value="'+registrations[i].eventid+'"><input type="hidden" class="form-control" placeholder="Phone No" name="phone" id="phone" value="'+registrations[i].paymentphoneno+'"><input type="hidden" class="form-control" placeholder="Qr code" name="qr" id="qr" value="'+registrations[i].qrcode+'"><button type="button" class="btn btn-block btn-warning" onclick="approvepayment('+registrations[i].qrcode+','+registrations[i].paymentphoneno+')">Pending</button></td></tr>';
-                 }
+                  }
                else if(registrations[i].paymentstatus==1)
                   reg+='<td><button type="button" class="btn btn-block btn-success disabled">Success</button></td></tr>';
 
