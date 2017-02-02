@@ -135,7 +135,7 @@ $("#wait").css("display","block");
                 
                 if(registrations[i].paymentstatus==0)
 
-                  {reg+='<td><input type="hidden" class="form-control" placeholder="Event ID" name="event" id="event" value="'+registrations[i].eventid+'"><input type="hidden" class="form-control" placeholder="Phone No" name="phone" id="phone" value="'+registrations[i].paymentphoneno+'"><input type="hidden" class="form-control" placeholder="Qr code" name="qr" id="qr" value="'+registrations[i].qrcode+'"><button type="button" class="btn btn-block btn-warning" onclick="approvepayment('+registrations[i].qrcode+','+registrations[i].paymentphoneno+')">Pending</button></td></tr>';
+                  {reg+='<td><input type="hidden" class="form-control" placeholder="Event ID" name="event" id="event" value="'+registrations[i].eventid+'"><input type="hidden" class="form-control" placeholder="Phone No" name="phone" id="phone" value="'+registrations[i].paymentphoneno+'"><input type="hidden" class="form-control" placeholder="Qr code" name="qr" id="qr" value="'+registrations[i].qrcode+'"><button type="button" class="btn btn-block btn-warning" onclick="approvepayment('+registrations[i].qrcode+','+registrations[i].phoneno+')">Pending</button></td></tr>';
                   }
                else if(registrations[i].paymentstatus==1)
                   reg+='<td><button type="button" class="btn btn-block btn-success disabled">Success</button></td></tr>';
@@ -184,8 +184,9 @@ $("#wait").css("display","block");
   
 }
 
-function approvepayment(qrcode,phone,eventid)
-{
+function approvepayment(qrcode,phone)
+{alert(qrcode);
+  alert(phone);
  var eventlistname= $("#eventlist").val();
  for(var i=0; i<obj.length; i++)
           {
