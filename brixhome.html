@@ -201,7 +201,7 @@ function approvepayment(qrcode,phone,eventid)
             type: "GET",
             crossDomain: true,
             dataType: 'json',
-            url: "https://elementsculmyca2017.herokuapp.com/api/v1/pay/"+phone+"/"+eventid+"/"+qrcode+""/
+            url: "https://elementsculmyca2017.herokuapp.com/api/v1/pay/"+phone+"/"+eventid+"/"+qrcode+"/"+
             localStorage.getItem('token')
             //data: {username:username,password:password}
     //success: function() { alert("Success"); },
