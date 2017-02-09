@@ -38,7 +38,7 @@
   }
   return out;
 }
-  var obj;
+ 
   window.onload=function(){
     $("#wait").css("display","block");
    $("#eventl").hide();
@@ -67,7 +67,7 @@
 
         }).done(function(data){
           $("#wait").css("display","none");
-          obj=JSON.parse(JSON.stringify(data));
+          var obj=JSON.parse(JSON.stringify(data));
           var a=[];
           for(var i=0; i<obj.length; i++)
           {
@@ -111,7 +111,7 @@ $("#wait").css("display","block");
 
         }).done(function(data){
           $("#wait").css("display","none");
-          obj=JSON.parse(JSON.stringify(data));
+          var obj=JSON.parse(JSON.stringify(data));
           var eventn="";
           for(var i=0; i<obj.length; i++)
           {
@@ -129,6 +129,11 @@ $("#wait").css("display","block");
  function ok()
   {
         $("#phoneno").val('');
+        $('#fullname').val('');
+        $('#college').val('');
+        $('#email').val('');
+        $('#paymenttxnid').val('');
+        $('#paymentphoneno').val('');
 
           $("#reg").show();
         
@@ -139,14 +144,7 @@ $("#wait").css("display","block");
 function create()
 {
 $("#wait").css("display","block");
-var phoneno=$("#phoneno").val();
-{var email= $("#email").val();
-var fullname= $("#fullname").val();
-var college = $("#college").val();
-var paymenttxnid=$("#paymenttxnid").val();
-var paymentphoneno= $("#paymentphoneno").val();
-if(paymenttxnid=='')
-paymenttxnid='cash';
+
 var clubname= $("#clubnamef").val();
  var eventlistname= $("#eventlist").val();
 
@@ -161,22 +159,32 @@ var clubname= $("#clubnamef").val();
 
         }).done(function(data){
           $("#wait").css("display","none");
-          obj=JSON.parse(JSON.stringify(data));
+          var obj=JSON.parse(JSON.stringify(data));
           for(var i=0; i<obj.length; i++)
           {
               if(obj[i].eventName===eventlistname)
               {
                 var eventid=obj[i]._id;
-
                 break;
               }
           }
           $("#eventid").val(eventid);
+          okk();
         })
 
+//alert(eventid);
+}
+function okk()
+ {var phoneno=$("#phoneno").val();
+var email= $("#email").val();
+var fullname= $("#fullname").val();
+var college = $("#college").val();
+var paymenttxnid=$("#paymenttxnid").val();
+var paymentphoneno= $("#paymentphoneno").val();
+if(paymenttxnid=='')
+paymenttxnid='cash';
 var eventid=$('#eventid').val();
-
- $.ajax({
+  $.ajax({
 
             type: "POST",
             crossDomain: true,
@@ -188,11 +196,59 @@ var eventid=$('#eventid').val();
           $("#wait").css("display","none");           
             $("#reg").hide();
         })
+     var eventid=$('#eventid').val();   
+
+         $.ajax({
+
+            type: "GET",
+            crossDomain: true,
+            dataType: 'json',
+             url: "https://elementsculmyca2017.herokuapp.com/api/v1/registrations/"+localStorage.getItem('clubname')+"/"+eventid+"/"+localStorage.getItem('token')
+            //data: {username:username,password:password}
+            //success: function() { alert("Success"); },
+            //error: function() { alert('Failed!'); }
+
+        }).done(function(data){
+            var obj1=JSON.parse(JSON.stringify(data));
+            //console.log(data);
+            var l=obj1.length;
+            l=l-1;
+            var qrcode=obj1[l]._id;
+             approvepayment(phoneno,qrcode);
+
+        })
+       
+        
+        
+        
 }
+
+
+function approvepayment(phone,qrcode)
+{//alert(qrcode);
+ 
+ var eventid=$('#eventid').val();
+
+  $.ajax({
+
+            type: "GET",
+            crossDomain: true,
+            dataType: 'json',
+            url: "https://elementsculmyca2017.herokuapp.com/api/v1/pay/"+phone+"/"+eventid+"/"+qrcode+"/"+
+            localStorage.getItem('token')
+            //data: {username:username,password:password}
+    //success: function() { alert("Success"); },
+    //error: function() { alert('Failed!'); }
+
+        }).done(function(data){
+           ok();   
+
+        })
 }
 function cancel()
 {
   $("#reg").hide();
+  $('#eventid').val('');
   $("#phoneno").val('');
   $('#fullname').val('');
   $('#college').val('');
@@ -359,12 +415,12 @@ function cashf()
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Payment Approval
+        Counter Registrations
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Payment Approval</li>
+        <li class="active">Counter Registrations</li>
       </ol>
     </section>
 
@@ -405,8 +461,10 @@ function cashf()
         </div>
             
                 <div class="form-group">
-                  <label>Event Id</label>
                   <input type="hidden" class="form-control" placeholder="Event Id" name="eventid" id="eventid" />
+                </div>
+                <div class="form-group">
+                  <input type="hidden" class="form-control" placeholder="qr" name="qr" id="qr" />
                 </div>
                 <div class="form-group">
                   <label>Phone No.</label>
