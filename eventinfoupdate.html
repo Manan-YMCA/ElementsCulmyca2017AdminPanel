@@ -108,6 +108,7 @@ var eventlistname= $("#eventlist").val();
            document.getElementById("description").innerHTML=description;
            document.getElementById("rules").innerHTML=rules;
            document.getElementById("venue").setAttribute('value',venue);
+          document.getElementById("fee").setAttribute('value',fee);
            document.getElementById("st").setAttribute('value',st);
            document.getElementById("et").setAttribute('value',et);
          
@@ -158,6 +159,7 @@ var description = $("#description").val();
 var rules=$("#rules").val();
 //alert(rules);
 var venue = $("#venue").val();
+var fee=$("#fee").val();
 var startTime= $("#st").val();
 
 var endTime= $("#et").val();
@@ -171,7 +173,7 @@ var clubname=$("#clubnamef").val();
             crossDomain: true,
             dataType: 'json',
             url: "http://elementsculmyca2017.herokuapp.com/api/v1/eventUpdate/"+localStorage.getItem('token'),
-            data: {clubname:clubname,eventid:eventid,description:description,rules:rules,venue:venue,st:startTime,et:endTime},
+            data: {clubname:clubname,eventid:eventid,description:description,rules:rules,venue:venue,st:startTime,et:endTime,fee:fee},
     success: function() { alert("Your data is updated correctly"); },
     error: function() { alert('Failed! Please Try Again'); }
 
@@ -366,6 +368,10 @@ function cancel()
                 <div class="form-group">
                   <label>Venue</label>
                   <input type="text" class="form-control" placeholder="Venue" name="venue" id="venue">
+                </div>
+                <div class="form-group">
+                  <label>Fee</label>
+                  <input type="text" class="form-control" placeholder="Fee" name="fee" id="fee">
                 </div>
                 <div class="form-group">
                   <label>Start Time (Format is :- dd/mm/yyyy hh:mm AM/PM)</label>

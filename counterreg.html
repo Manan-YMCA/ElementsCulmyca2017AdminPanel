@@ -134,7 +134,7 @@ $("#wait").css("display","block");
         $('#email').val('');
         $('#paymenttxnid').val('');
         $('#paymentphoneno').val('');
-
+       
           $("#reg").show();
         
 
@@ -235,12 +235,13 @@ function approvepayment(phone,qrcode)
             crossDomain: true,
             dataType: 'json',
             url: "https://elementsculmyca2017.herokuapp.com/api/v1/pay/"+phone+"/"+eventid+"/"+qrcode+"/"+
-            localStorage.getItem('token')
+            localStorage.getItem('token'),
             //data: {username:username,password:password}
-    //success: function() { alert("Success"); },
-    //error: function() { alert('Failed!'); }
+    success: function() { alert("You have registered successfully"); },
+    error: function() { alert('Sorry!! Try Again'); }
 
         }).done(function(data){
+           
            ok();   
 
         })
