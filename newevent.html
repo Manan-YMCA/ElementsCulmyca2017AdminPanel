@@ -50,8 +50,9 @@
 function create()
 {
 $("#wait").css("display","block");
-  var eventname= $("#eventname").val();
-{var eventname= $("#eventname").val();
+var type = $('input[name=type]:checked').val();
+var eventname= $("#eventname").val();
+var eventname= $("#eventname").val();
 var category= $("#category").val();
 var description = $("#description").val();
 var rules=$("#rules").val();
@@ -67,7 +68,7 @@ var clubname=$("#clubnamef").val();
             crossDomain: true,
             dataType: 'json',
             url: "https://elementsculmyca2017.herokuapp.com/api/v1/eventRegister/"+localStorage.getItem('token'),
-            data: {club:clubname,eventName:eventname,category:category,description:description,rules:rules,venue:venue,fee:fee,startTime:startTime,endTime:endTime},
+            data: {club:clubname,eventName:eventname,category:category,description:description,rules:rules,venue:venue,fee:fee,startTime:startTime,endTime:endTime,type:type},
     success: function() { alert("Your data is updated correctly"); },
     error: function() { alert('Failed! Please Try Again'); }
 
@@ -76,7 +77,7 @@ var clubname=$("#clubnamef").val();
             
             $("#updateform").hide();
         })
-}
+
 }
 function cancel()
 {
@@ -244,7 +245,11 @@ function cancel()
           <p>Enter the values in fields to create new event and press the submit button.</p>
           <p>To cancel the changes, press the cancel button.</p>
         </div>
-            
+                <div class="form-group">
+                  <label>Type</label><br/>
+                  <input type="radio" name="type" value="individual" checked> Individual
+                  <input type="radio" name="type" value="team"> Team
+                </div>
                 <div class="form-group">
                   <label>Event Name</label>
                   <input type="text" class="form-control" placeholder="Event Name" name="eventname" id="eventname">

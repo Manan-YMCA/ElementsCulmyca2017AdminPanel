@@ -99,6 +99,8 @@ var eventlistname= $("#eventlist").val();
                 var fee=obj[i].fee;
                 var st=obj[i].startTime;
                 var et=obj[i].endTime;
+                var type=obj[i].type;
+                console.log(type);
                 break;
               }
           }
@@ -111,7 +113,12 @@ var eventlistname= $("#eventlist").val();
           document.getElementById("fee").setAttribute('value',fee);
            document.getElementById("st").setAttribute('value',st);
            document.getElementById("et").setAttribute('value',et);
-         
+           if(type!=undefined&&type&&type!=null){
+            $('input[name=type][value='+type+']').attr('checked', 'checked');
+           }
+         else{
+            $('input[name=type]').attr('checked', false);
+         }
 
 
 }
@@ -166,6 +173,7 @@ var endTime= $("#et").val();
 //alert(endTime);
 var clubname=$("#clubnamef").val();
 //alert(clubname);
+var type = $('input[name=type]:checked').val();
 
  $.ajax({
 
@@ -173,7 +181,7 @@ var clubname=$("#clubnamef").val();
             crossDomain: true,
             dataType: 'json',
             url: "http://elementsculmyca2017.herokuapp.com/api/v1/eventUpdate/"+localStorage.getItem('token'),
-            data: {clubname:clubname,eventid:eventid,description:description,rules:rules,venue:venue,st:startTime,et:endTime,fee:fee},
+            data: {clubname:clubname,eventid:eventid,description:description,rules:rules,venue:venue,st:startTime,et:endTime,fee:fee, type:type},
     success: function() { alert("Your data is updated correctly"); },
     error: function() { alert('Failed! Please Try Again'); }
 
@@ -352,6 +360,11 @@ function cancel()
             <div class="form-group">
                   
                   <input type="hidden" class="form-control" placeholder="Event ID" name="eventid" id="eventid">
+                </div>
+                  <div class="form-group">
+                  <label>Type</label><br/>
+                  <input type="radio" name="type" value="individual"> Individual
+                  <input type="radio" name="type" value="team"> Team
                 </div>
                 <div class="form-group">
                   <label>Event Name</label>
