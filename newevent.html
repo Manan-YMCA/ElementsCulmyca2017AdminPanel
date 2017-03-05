@@ -50,7 +50,7 @@
 function create()
 {
 $("#wait").css("display","block");
-var type = $('input[name=type]:checked').val();
+var type = $("#type").val();
 var eventname= $("#eventname").val();
 var eventname= $("#eventname").val();
 var category= $("#category").val();
@@ -246,9 +246,8 @@ function cancel()
           <p>To cancel the changes, press the cancel button.</p>
         </div>
                 <div class="form-group">
-                  <label>Type</label><br/>
-                  <input type="radio" name="type" value="individual" checked> Individual
-                  <input type="radio" name="type" value="team"> Team
+                  <label>Type (Enter one of the three values:-(team,individual,presentation))</label><br/>
+                  <input type="text" class="form-control" placeholder="Type" name="type" id="type">
                 </div>
                 <div class="form-group">
                   <label>Event Name</label>

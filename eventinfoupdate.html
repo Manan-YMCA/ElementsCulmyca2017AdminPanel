@@ -113,12 +113,7 @@ var eventlistname= $("#eventlist").val();
           document.getElementById("fee").setAttribute('value',fee);
            document.getElementById("st").setAttribute('value',st);
            document.getElementById("et").setAttribute('value',et);
-           if(type!=undefined&&type&&type!=null){
-            $('input[name=type][value='+type+']').attr('checked', 'checked');
-           }
-         else{
-            $('input[name=type]').attr('checked', false);
-         }
+          document.getElementById("type").setAttribute('value',type);
 
 
 }
@@ -173,7 +168,7 @@ var endTime= $("#et").val();
 //alert(endTime);
 var clubname=$("#clubnamef").val();
 //alert(clubname);
-var type = $('input[name=type]:checked').val();
+var type = $("#type").val();
 
  $.ajax({
 
@@ -362,9 +357,8 @@ function cancel()
                   <input type="hidden" class="form-control" placeholder="Event ID" name="eventid" id="eventid">
                 </div>
                   <div class="form-group">
-                  <label>Type</label><br/>
-                  <input type="radio" name="type" value="individual"> Individual
-                  <input type="radio" name="type" value="team"> Team
+                   <label>Type (Enter one of the three values:-(team,individual,presentation))</label><br/>
+                  <input type="text" class="form-control" placeholder="Type" name="type" id="type">
                 </div>
                 <div class="form-group">
                   <label>Event Name</label>
